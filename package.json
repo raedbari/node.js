@@ -1,0 +1,14 @@
+{
+  "name": "your-app",
+  "version": "1.0.0",
+  "description": "Simple Express App in Docker",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
