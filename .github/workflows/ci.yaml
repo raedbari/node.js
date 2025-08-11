@@ -6,7 +6,10 @@ on:
 
 jobs:
   docker:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    env:
+      IMAGE: yourdockerhubuser/your-app
+      TAG: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,5 +26,10 @@ jobs:
         with:
           push: true
           tags: |
-            yourdockerhubuser/your-app:latest
-            yourdockerhubuser/your-app:${{ github.sha }}
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ env.TAG }}
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl -n app set image deployment/sample-app sample-app=${IMAGE}:${TAG}
+          kubectl -n app rollout status deployment/sample-app --timeout=180s
